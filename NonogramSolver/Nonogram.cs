@@ -8,5 +8,6 @@ namespace NonogramSolver
 {
     class Nonogram
     {
+        //
     }
 }
