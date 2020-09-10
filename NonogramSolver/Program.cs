@@ -10,7 +10,9 @@ namespace NonogramSolver
     {
         static void Main(string[] args)
         {
-            Console.Write("Hello World! I'm a separate environment!");
+            Nonogram nng = new Nonogram(4, 4);
+            nng.FillCoordinate(3, 2);
+            nng.DisplayPicture(new string[] {"0","0","0","1"});
             Console.Read();
         }
     }
