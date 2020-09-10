@@ -10,17 +10,25 @@ namespace NonogramSolver
     {
         private int RowCount;
         private int ColumnCount;
+        private int[] shape;
         //[row, column]
-        private bool[,] PictureGrid;
+        private bool[,,] PictureGrid;
 
         public Nonogram(int rowCount, int columnCount)
         {
             this.RowCount = rowCount;
             this.ColumnCount = columnCount;
-            this.PictureGrid = new bool[rowCount, columnCount];
+            // PictureGrid[,,0] is confirmed or not,
+            // PictureGrid[,,1] is filled or not
+            this.PictureGrid = new bool[rowCount, columnCount, 2];
+            this.shape = new int[2] { rowCount, columnCount };
         }
 
-        // Nested fillCoordinate() --- checks for input validity
+        private void _FillCoordinate(int row, int col)
+        {
+            this.PictureGrid[row, col, 1] = true;
+        }
+        // Wrapped _FillCoordinate() --- checks for input validity
         public void FillCoordinate(int row, int col)
         {
             if (row >= this.RowCount)
@@ -45,40 +53,118 @@ namespace NonogramSolver
             }
             this._FillCoordinate(row, col);
         }
-        private void _FillCoordinate(int row, int col)
-        {
-            this.PictureGrid[row, col] = true;
-        }
 
-        //Nested toggleCoordinate() --- checks for input valididy
-        public void ToggleCoordinate(int row, int col)
+        private void _ToggleFill(int row, int col)
+        {
+            this.PictureGrid[row, col,1] = !this.PictureGrid[row, col,1];
+        }
+        // Wrapped _ToggleCoordinate() --- checks for input validity
+        public void ToggleFill(int row, int col)
         {
             if (row >= this.RowCount)
             {
-                Console.WriteLine(String.Format("ToggleCoordinate: This puzzle has only {0} rows.\t{2} is used instead of given argument {1}", this.RowCount, row, this.RowCount - 1));
+                Console.WriteLine(String.Format("ToggleFill: This puzzle has only {0} rows.\t{2} is used instead of given argument {1}", this.RowCount, row, this.RowCount - 1));
                 row = this.RowCount - 1;
             }
             else if (row < 0)
             {
-                Console.WriteLine(String.Format("ToggleCoordinate: Negative row number used.\tUsing 0 instead of given argument {0}", row));
+                Console.WriteLine(String.Format("ToggleFill: Negative row number used.\tUsing 0 instead of given argument {0}", row));
                 row = 0;
             }
             if (col >= this.ColumnCount)
             {
-                Console.WriteLine(String.Format("ToggleCoordinate: This puzzle has only {0} columns.\t{2} is used instead of given argument {1}", this.ColumnCount, col, this.ColumnCount - 1));
+                Console.WriteLine(String.Format("ToggleFill: This puzzle has only {0} columns.\t{2} is used instead of given argument {1}", this.ColumnCount, col, this.ColumnCount - 1));
                 col = this.ColumnCount - 1;
             }
             else if (col < 0)
             {
-                Console.WriteLine(String.Format("ToggleCoordinate: Negative column number used\tUsing 0 instead of given argument{0}", col));
+                Console.WriteLine(String.Format("ToggleFill: Negative column number used\tUsing 0 instead of given argument{0}", col));
                 col = 0;
             }
-            this._ToggleCoordinate(row, col);
+            this._ToggleFill(row, col);
         }
-        private void _ToggleCoordinate(int row, int col)
+
+        private bool[] _Lookup(int row, int col)
         {
-            this.PictureGrid[row, col] = !this.PictureGrid[row, col];
+            return new bool[] { this.PictureGrid[row, col, 0], this.PictureGrid[row, col, 1]};
         }
+        // Wrapped _Lookup() --- checks for input validity
+        public bool[] Lookup(int row, int col)
+        {
+            if (row >= this.RowCount)
+            {
+                Console.WriteLine(String.Format("Lookup: This puzzle has only {0} rows.\t{2} is used instead of given argument {1}", this.RowCount, row, this.RowCount - 1));
+                row = this.RowCount - 1;
+            }
+            else if (row < 0)
+            {
+                Console.WriteLine(String.Format("Lookup: Negative row number used.\tUsing 0 instead of given argument {0}", row));
+                row = 0;
+            }
+            if (col >= this.ColumnCount)
+            {
+                Console.WriteLine(String.Format("Lookup: This puzzle has only {0} columns.\t{2} is used instead of given argument {1}", this.ColumnCount, col, this.ColumnCount - 1));
+                col = this.ColumnCount - 1;
+            }
+            else if (col < 0)
+            {
+                Console.WriteLine(String.Format("Lookup: Negative column number used\tUsing 0 instead of given argument{0}", col));
+                col = 0;
+            }
+            return _Lookup(row, col);
+
+        }
+
+        private bool[][] _RowLookup(int row)
+        {
+            bool[][] returnArray = new bool[this.ColumnCount][];
+            for (int col = 0; col < this.ColumnCount; col++)
+            {
+                returnArray[col] = new bool[] { this.PictureGrid[row, col, 0], this.PictureGrid[row, col, 1] };
+            }
+            return returnArray;
+        }
+        // Wrapped _RowLookup() --- checks for input validity
+        public bool[][] RowLookup(int row)
+        {
+            if (row >= this.RowCount)
+            {
+                Console.WriteLine(String.Format("RowLookup: This puzzle has only {0} rows.\t{2} is used instead of given argument {1}", this.RowCount, row, this.RowCount - 1));
+                row = this.RowCount - 1;
+            }
+            else if (row < 0)
+            {
+                Console.WriteLine(String.Format("RowLookup: Negative row number used.\tUsing 0 instead of given argument {0}", row));
+                row = 0;
+            }
+            return _RowLookup(row);
+        }
+
+        private bool[][] _ColLookup(int col)
+        {
+            bool[][] returnArray = new bool[this.RowCount][];
+            for (int row = 0; row < this.RowCount; row++)
+            {
+                returnArray[row] = new bool[] { this.PictureGrid[row, col, 0], this.PictureGrid[row, col, 1] };
+            }
+            return returnArray;
+        }
+        //Wrapped _ColLookup() --- checks for input validity
+        public bool[][] ColLookup(int col)
+        {
+            if (col >= this.ColumnCount)
+            {
+                Console.WriteLine(String.Format("ColLookup: This puzzle has only {0} columns.\t{2} is used instead of given argument {1}", this.ColumnCount, col, this.ColumnCount - 1));
+                col = this.ColumnCount - 1;
+            }
+            else if (col < 0)
+            {
+                Console.WriteLine(String.Format("ColLookup: Negative column number used\tUsing 0 instead of given argument{0}", col));
+                col = 0;
+            }
+            return _ColLookup(col);
+        }
+
         public void DisplayPicture(string[] rowFactors = null)
         {
 
@@ -91,7 +177,7 @@ namespace NonogramSolver
             }
 
             // Upper border of the displayed picture
-            Console.Write(String.Format(formatString, "")+" ");
+            Console.Write(String.Format(formatString, "") + " ");
             for (int col = 0; col < this.ColumnCount; col++)
             {
                 Console.Write("__");
@@ -104,11 +190,11 @@ namespace NonogramSolver
             {
                 if (rowPrint)
                 {
-                    Console.Write(String.Format(formatString, rowFactors[row])+"|");
+                    Console.Write(String.Format(formatString, rowFactors[row]) + "|");
                 }
                 for (int col = 0; col < this.ColumnCount; col++)
                 {
-                    if (PictureGrid[row, col])
+                    if (PictureGrid[row, col,1])
                     {
                         Console.Write("██");
                     }
@@ -121,12 +207,13 @@ namespace NonogramSolver
             }
 
             // Bottom border of the displayed picture
-            Console.Write(String.Format(formatString, "")+" ");
+            Console.Write(String.Format(formatString, "") + " ");
             for (int col = 0; col < this.ColumnCount; col++)
             {
                 Console.Write("ㅡ");
             }
             Console.Write("\n");
         }
+
     }
 }
