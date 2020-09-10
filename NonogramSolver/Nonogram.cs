@@ -14,6 +14,12 @@ namespace NonogramSolver
         //[row, column]
         private bool[,,] PictureGrid;
 
+        public int[] Shape
+        {
+            get => shape;
+            set => shape = value;
+        }
+
         public Nonogram(int rowCount, int columnCount)
         {
             this.RowCount = rowCount;
@@ -21,7 +27,7 @@ namespace NonogramSolver
             // PictureGrid[,,0] is confirmed or not,
             // PictureGrid[,,1] is filled or not
             this.PictureGrid = new bool[rowCount, columnCount, 2];
-            this.shape = new int[2] { rowCount, columnCount };
+            this.Shape = new int[2] { rowCount, columnCount };
         }
 
         private void _FillCoordinate(int row, int col)
@@ -165,9 +171,14 @@ namespace NonogramSolver
             return _ColLookup(col);
         }
 
-        public void DisplayPicture(string[] rowFactors = null)
+        public void DisplayPicture(int[][] rowHints = null)
         {
-
+            string[] rowFactors = new string[rowHints.Length];
+            int i = 0;
+            foreach (int[] row in rowHints)
+            {
+                rowFactors[i++] = string.Join(" ", row.Select(x => x.ToString()).ToArray());
+            }
             string formatString = "{0," + this.ColumnCount + "}  ";
             bool rowPrint = (rowFactors != null && rowFactors.Length == this.RowCount);
 
