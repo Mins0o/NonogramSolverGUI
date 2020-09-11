@@ -181,14 +181,17 @@ namespace NonogramSolver
             }
             string formatString = "{0," + this.ColumnCount + "}  ";
             bool rowPrint = (rowFactors != null && rowFactors.Length == this.RowCount);
-            bool colPrint = (rowHints != null && colHints.Length == this.ColumnCount);
+            bool colPrint = (colHints != null && colHints.Length == this.ColumnCount);
 
             if (!rowPrint)
             {
                 Console.WriteLine("rowFactors doesn't match the number of rows");
             }
 
-            this.DisplayColHints(colHints);
+            if (colPrint)
+            {
+                this.DisplayColHints(colHints);
+            }
 
             // Upper border of the displayed picture
             Console.Write(String.Format(formatString, "") + " ");
@@ -234,7 +237,34 @@ namespace NonogramSolver
             /*
              * Takes in an array of integer array and prints them out in right-aligned and rotated 90 CW format.
              */
-            string spacing = string.Format("{," + this.ColumnCount +"}");
+            string spacing = string.Format("{0," + (this.ColumnCount + 3) +"}","");
+
+            // Make an array with the information of length of each column hints
+            int maxLength;
+            int[] lengths = new int[colHints.Length];
+            for (int col = 0; col < colHints.Length; col++)
+            {
+                lengths[col] = colHints[col].Length;
+            }
+            maxLength = lengths.Max();
+
+            // Since some
+            for (int hintRow = 0; hintRow < maxLength; hintRow++)
+            {
+                Console.Write(spacing);
+                for (int col = 0; col < colHints.Length; col++)
+                {
+                    if (maxLength - hintRow - 1 < lengths[col])
+                    {
+                        Console.Write(string.Format("{0,2}",colHints[col][maxLength-hintRow-1], ""));
+                    }
+                    else
+                    {
+                        Console.Write("  ");
+                    }
+                }
+                Console.Write("\n");
+            }
         }
 
     }
