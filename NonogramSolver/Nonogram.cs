@@ -171,7 +171,7 @@ namespace NonogramSolver
             return _ColLookup(col);
         }
 
-        public void DisplayPicture(int[][] rowHints = null)
+        public void DisplayPicture(int[][] rowHints = null, int[][] colHints = null)
         {
             string[] rowFactors = new string[rowHints.Length];
             int i = 0;
@@ -181,11 +181,14 @@ namespace NonogramSolver
             }
             string formatString = "{0," + this.ColumnCount + "}  ";
             bool rowPrint = (rowFactors != null && rowFactors.Length == this.RowCount);
+            bool colPrint = (rowHints != null && colHints.Length == this.ColumnCount);
 
             if (!rowPrint)
             {
                 Console.WriteLine("rowFactors doesn't match the number of rows");
             }
+
+            this.DisplayColHints(colHints);
 
             // Upper border of the displayed picture
             Console.Write(String.Format(formatString, "") + " ");
@@ -224,6 +227,14 @@ namespace NonogramSolver
                 Console.Write("ㅡ");
             }
             Console.Write("\n");
+        }
+
+        public void DisplayColHints(int[][] colHints = null)
+        {
+            /*
+             * Takes in an array of integer array and prints them out in right-aligned and rotated 90 CW format.
+             */
+            string spacing = string.Format("{," + this.ColumnCount +"}");
         }
 
     }

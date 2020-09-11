@@ -11,9 +11,22 @@ namespace NonogramSolver
         static void Main(string[] args)
         {
             Nonogram nng = new Nonogram(4, 4);
-            nng.FillCoordinate(3, 2);
-            nng.DisplayPicture(new string[] {"0","0","0","1"});
+            nng.FillCoordinate(3, 1);
+            nng.FillCoordinate(3, 3);
+
+            int[][] rowHint = new int[4][];
+            {
+                rowHint[0] = new int[] { 0 };
+                rowHint[1] = new int[] { 0 };
+                rowHint[2] = new int[] { 0 };
+                rowHint[3] = new int[] { 1, 1 };
+
+            }
+            nng.DisplayPicture(rowHint);
             PrintJaggedArray2(nng.RowLookup(1));
+
+            Solver01 test = new Solver01();
+            test.Solve(rowHint, rowHint, nng);
             Console.Read();
         }
 
