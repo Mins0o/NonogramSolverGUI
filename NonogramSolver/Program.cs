@@ -10,6 +10,14 @@ namespace NonogramSolver
     {
         static void Main(string[] args)
         {
+
+            FillTest();
+
+            Console.Read();
+        }
+
+        static void FillTest()
+        {
             Nonogram nng = new Nonogram(4, 4);
             nng.FillCoordinate(3, 1);
             nng.FillCoordinate(3, 3);
@@ -37,6 +45,7 @@ namespace NonogramSolver
             nng2.FillCoordinate(1, 4);
             nng2.FillCoordinate(2, 3);
             nng2.FillCoordinate(2, 4);
+
             nng2.DisplayPuzzle();
             nng2.DisplayPicture();
 
@@ -48,6 +57,7 @@ namespace NonogramSolver
             nng3.FillCoordinate(1, 4);
             nng3.FillCoordinate(2, 3);
             nng3.FillCoordinate(2, 4);
+
             nng3.DisplayPuzzle();
 
             Nonogram nng4 = new Nonogram(3, 5);
@@ -59,6 +69,7 @@ namespace NonogramSolver
             nng4.FillCoordinate(1, 4);
             nng4.FillCoordinate(2, 3);
             nng4.FillCoordinate(2, 4);
+
             nng4.DisplayPuzzle();
 
 
@@ -128,7 +139,9 @@ namespace NonogramSolver
             }
             wikipedia.DisplayPuzzle();
 
-            Console.Read();
+            Nonogram p = new Nonogram(11, 8, new int[,] { { 1, 1 }, { 1, 2 }, { 1, 3 }, { 1, 4 }, { 2, 1 }, { 2, 2 }, { 2, 3 }, { 2, 4 }, { 2, 5 }, { 2, 6 }, { 3, 1 }, { 3, 2 }, { 3, 5 }, { 3, 6 }, { 4, 1 }, { 4, 2 }, { 4, 5 }, { 4, 6 }, { 5, 1 }, { 5, 2 }, { 5, 3 }, { 5, 4 }, { 5, 5 }, { 5, 6 }, { 6, 1 }, { 6, 2 }, { 6, 3 }, { 6, 4 }, { 7, 1 }, { 7, 2 }, { 8, 1 }, { 8, 2 }, { 9, 1 }, { 9, 2 } });
+
+            p.DisplayPuzzle();
         }
 
         static void PrintArray<T>(T[] array)

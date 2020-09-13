@@ -28,7 +28,7 @@ namespace NonogramSolver
             get{ return _colHint; }
         }
 
-        public Nonogram(int rowCount, int columnCount)
+        public Nonogram(int rowCount, int columnCount, int[,] fillCoords = null)
         {
             if (rowCount < 1)
             {
@@ -57,6 +57,16 @@ namespace NonogramSolver
             for (int i = 0; i < columnCount; i++)
             {
                 _colHint[i] = new int[] { };
+            }
+
+            // Fill in as coordinates
+            if (fillCoords != null)
+            {
+                int len = fillCoords.Length / 2;
+                for (int coord = 0; coord < len; coord++)
+                {
+                    _FillCoordinate(fillCoords[coord, 0], fillCoords[coord, 1]);
+                }
             }
         }
 
