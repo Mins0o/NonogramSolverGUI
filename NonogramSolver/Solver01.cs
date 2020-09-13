@@ -8,18 +8,23 @@ namespace NonogramSolver
 {
     class Solver01
     {
-
-        public void Solve(int[][] rowHints, int[][] colHints, Nonogram puzzle)
+        // I might not tuse the confirmed bit (bool) in this solver, but maybe I can use the feature in another search-based algorithm
+        public Nonogram Solve(int[][] rowHints, int[][] colHints)
         {
-            // Check hint length with the puzzle shape
-            int[] shape = puzzle.Shape;
-            if(rowHints.Length != shape[0] || colHints.Length != shape[1])
+            if (!ValidateHints(rowHints, colHints))
             {
-                Console.WriteLine("The hints doesn't match the shape of the puzzle");
-                return;
+                return new Nonogram(1, 1);
             }
+            int rowCount = rowHints.Length;
+            int columnCount = colHints.Length;
+            Nonogram puzzle = new Nonogram(rowCount, columnCount);
 
+            return puzzle;
+        }
 
+        public bool ValidateHints(int[][] rowHints, int[][] colHints)
+        {
+            return true;
         }
     }
 }
