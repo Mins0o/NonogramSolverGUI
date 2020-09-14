@@ -24,7 +24,18 @@ namespace NonogramSolver
 
         public bool ValidateHints(int[][] rowHints, int[][] colHints)
         {
-            return true;
+            int rowSum = 0;
+            int colSum = 0;
+
+            foreach (int[] hints in rowHints)
+            {
+                rowSum += hints.Sum();
+            }
+            foreach (int[] hints in colHints)
+            {
+                colSum += hints.Sum();
+            }
+            return rowSum == colSum;
         }
     }
 }
