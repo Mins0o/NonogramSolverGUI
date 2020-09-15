@@ -22,7 +22,7 @@ namespace NonogramSolver
             return puzzle;
         }
 
-        public bool ValidateHints(int[][] rowHints, int[][] colHints)
+        private bool ValidateHints(int[][] rowHints, int[][] colHints)
         {
             int rowSum = 0;
             int colSum = 0;
@@ -36,6 +36,11 @@ namespace NonogramSolver
                 colSum += hints.Sum();
             }
             return rowSum == colSum;
+        }
+
+        private void HalfCheck()
+        {
+            return;
         }
     }
 }
