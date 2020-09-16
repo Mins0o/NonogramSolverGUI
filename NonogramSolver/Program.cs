@@ -13,6 +13,8 @@ namespace NonogramSolver
 
             FillTest();
 
+            SolveTest();
+
             Console.Read();
         }
 
@@ -34,9 +36,6 @@ namespace NonogramSolver
             PrintJaggedArray2(nng.RowLookup(1));
             PrintJaggedArray2(nng.RowLookup(2));
             PrintJaggedArray2(nng.RowLookup(3));
-
-            Solver01 test = new Solver01();
-            test.Solve(nng.RowHint, nng.ColHint);
 
             Nonogram nng2 = new Nonogram(3, 5);
             nng2.FillCoordinate(0, 1);
@@ -142,6 +141,15 @@ namespace NonogramSolver
             Nonogram p = new Nonogram(11, 8, new int[,] { { 1, 1 }, { 1, 2 }, { 1, 3 }, { 1, 4 }, { 2, 1 }, { 2, 2 }, { 2, 3 }, { 2, 4 }, { 2, 5 }, { 2, 6 }, { 3, 1 }, { 3, 2 }, { 3, 5 }, { 3, 6 }, { 4, 1 }, { 4, 2 }, { 4, 5 }, { 4, 6 }, { 5, 1 }, { 5, 2 }, { 5, 3 }, { 5, 4 }, { 5, 5 }, { 5, 6 }, { 6, 1 }, { 6, 2 }, { 6, 3 }, { 6, 4 }, { 7, 1 }, { 7, 2 }, { 8, 1 }, { 8, 2 }, { 9, 1 }, { 9, 2 } });
 
             p.DisplayPuzzle();
+        }
+
+        static void SolveTest()
+        {
+            Nonogram p = new Nonogram(11, 8, new int[,] { { 1, 1 }, { 1, 2 }, { 1, 3 }, { 1, 4 }, { 2, 1 }, { 2, 2 }, { 2, 3 }, { 2, 4 }, { 2, 5 }, { 2, 6 }, { 3, 1 }, { 3, 2 }, { 3, 5 }, { 3, 6 }, { 4, 1 }, { 4, 2 }, { 4, 5 }, { 4, 6 }, { 5, 1 }, { 5, 2 }, { 5, 3 }, { 5, 4 }, { 5, 5 }, { 5, 6 }, { 6, 1 }, { 6, 2 }, { 6, 3 }, { 6, 4 }, { 7, 1 }, { 7, 2 }, { 8, 1 }, { 8, 2 }, { 9, 1 }, { 9, 2 } });
+
+            Solver01 slv01 = new Solver01();
+            Nonogram solution = slv01.Solve(p.RowHint, p.ColHint);
+            solution.DisplayPuzzle();
         }
 
         static void PrintArray<T>(T[] array)

@@ -18,7 +18,20 @@ namespace NonogramSolver
             int rowCount = rowHints.Length;
             int columnCount = colHints.Length;
             Nonogram puzzle = new Nonogram(rowCount, columnCount);
-
+            for (int row = 0; row < rowCount; row++)
+            {
+                foreach (int fillIn in HalfCheck(rowHints[row], columnCount))
+                {
+                    puzzle.FillCoordinate(row, fillIn);
+                }
+            }
+            for (int col = 0; col < columnCount; col++)
+            {
+                foreach (int fillIn in HalfCheck(colHints[col], rowCount))
+                {
+                    puzzle.FillCoordinate(fillIn, col);
+                }
+            }
             return puzzle;
         }
 
@@ -38,9 +51,25 @@ namespace NonogramSolver
             return rowSum == colSum;
         }
 
-        private void HalfCheck()
+        private int[] HalfCheck(int[] hint, int length)
         {
-            return;
+            if (hint.Length == 0)
+            {
+                return new int[0];
+            }
+            int diff = 2 * hint.Max() - length;
+            int[] arrayToFill;
+            if (diff > 0)
+            {
+                arrayToFill = new int[diff];
+                for (int i = 0; i < diff; i++)
+                {
+                    arrayToFill[i] = length - hint.Max() + i;
+                }
+                return arrayToFill;
+            }
+            else
+                return new int[0];
         }
     }
 }
