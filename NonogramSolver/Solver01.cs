@@ -24,10 +24,18 @@ namespace NonogramSolver
                 {
                     puzzle.FillCoordinate(row, fillIn);
                 }
+                foreach (int fillIn in FullCheck(rowHints[row], columnCount))
+                {
+                    puzzle.FillCoordinate(row, fillIn);
+                }
             }
             for (int col = 0; col < columnCount; col++)
             {
                 foreach (int fillIn in HalfCheck(colHints[col], rowCount))
+                {
+                    puzzle.FillCoordinate(fillIn, col);
+                }
+                foreach (int fillIn in FullCheck(colHints[col], rowCount))
                 {
                     puzzle.FillCoordinate(fillIn, col);
                 }
@@ -70,6 +78,28 @@ namespace NonogramSolver
             }
             else
                 return new int[0];
+        }
+
+        private int[] FullCheck(int[] hint, int length)
+        {
+            if (hint.Length == 0)
+            {
+                return new int[0];
+            }
+            int sum = 0;
+            sum += hint.Sum() + hint.Length - 1;
+            if (sum == length)
+            {
+                int[] arrayToReturn = new int[length - hint.Length + 1];
+                int index = 0;
+                foreach (int block in hint)
+                {
+                    for (int i = 0; i < block; i++)
+                    {
+                        arrayToReturn[index] = block;
+                    }
+                }
+            }
         }
     }
 }
