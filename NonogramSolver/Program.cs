@@ -147,9 +147,22 @@ namespace NonogramSolver
         {
             Nonogram p = new Nonogram(11, 8, new int[,] { { 1, 1 }, { 1, 2 }, { 1, 3 }, { 1, 4 }, { 2, 1 }, { 2, 2 }, { 2, 3 }, { 2, 4 }, { 2, 5 }, { 2, 6 }, { 3, 1 }, { 3, 2 }, { 3, 5 }, { 3, 6 }, { 4, 1 }, { 4, 2 }, { 4, 5 }, { 4, 6 }, { 5, 1 }, { 5, 2 }, { 5, 3 }, { 5, 4 }, { 5, 5 }, { 5, 6 }, { 6, 1 }, { 6, 2 }, { 6, 3 }, { 6, 4 }, { 7, 1 }, { 7, 2 }, { 8, 1 }, { 8, 2 }, { 9, 1 }, { 9, 2 } });
 
+            Nonogram nng4 = new Nonogram(3, 5);
+            nng4.FillCoordinate(0, 1);
+            nng4.FillCoordinate(0, 3);
+            nng4.FillCoordinate(1, 2);
+            nng4.FillCoordinate(1, 1);
+            nng4.FillCoordinate(1, 0);
+            nng4.FillCoordinate(1, 4);
+            nng4.FillCoordinate(2, 3);
+            nng4.FillCoordinate(2, 4);
+
             Solver01 slv01 = new Solver01();
-            Nonogram solution = slv01.Solve(p.RowHint, p.ColHint);
-            solution.DisplayPuzzle();
+            Nonogram solution1 = slv01.Solve(p.RowHint, p.ColHint);
+
+            Nonogram solution2 = slv01.Solve(nng4.RowHint, nng4.ColHint);
+            solution1.DisplayPuzzle();
+            solution2.DisplayPuzzle();
         }
 
         static void PrintArray<T>(T[] array)

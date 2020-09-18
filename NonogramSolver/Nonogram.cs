@@ -11,6 +11,8 @@ namespace NonogramSolver
         private int _rowCount;
         private int _columnCount;
         // [row, column]
+        // PictureGrid[,,0] is for 'confirmed' or not,
+        // PictureGrid[,,1] is for 'filled' or not
         private bool[,,] _pictureGrid;
 
         private int[] _shape;
@@ -70,8 +72,9 @@ namespace NonogramSolver
             }
         }
 
-        private void _FillCoordinate(int row, int col)
+        private void _FillCoordinate(int row, int col, bool confirmed = false)
         {
+            _pictureGrid[row, col, 1] = confirmed;
             _pictureGrid[row, col, 1] = true;
 
             // Update the column and row hints
@@ -79,7 +82,7 @@ namespace NonogramSolver
             
         }
         // Wrapped _FillCoordinate() --- checks for input validity
-        public void FillCoordinate(int row, int col)
+        public void FillCoordinate(int row, int col, bool confirmed = false)
         {
             if (row >= _rowCount)
             {
@@ -101,7 +104,7 @@ namespace NonogramSolver
                 Console.WriteLine(string.Format("FillCoordinate: Negative column number used\tUsing 0 instead of given argument{0}", col));
                 col = 0;
             }
-            _FillCoordinate(row, col);
+            _FillCoordinate(row, col, confirmed);
         }
 
         private void _ToggleFill(int row, int col)

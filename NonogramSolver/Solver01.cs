@@ -8,7 +8,7 @@ namespace NonogramSolver
 {
     class Solver01
     {
-        // I might not tuse the confirmed bit (bool) in this solver, but maybe I can use the feature in another search-based algorithm
+        // I might not use the confirmed bit (bool) in this solver, but maybe I can use the feature in another search-based algorithm
         public Nonogram Solve(int[][] rowHints, int[][] colHints)
         {
             if (!ValidateHints(rowHints, colHints))
@@ -22,22 +22,22 @@ namespace NonogramSolver
             {
                 foreach (int fillIn in HalfCheck(rowHints[row], columnCount))
                 {
-                    puzzle.FillCoordinate(row, fillIn);
+                    puzzle.FillCoordinate(row, fillIn, true);
                 }
                 foreach (int fillIn in FullCheck(rowHints[row], columnCount))
                 {
-                    puzzle.FillCoordinate(row, fillIn);
+                    puzzle.FillCoordinate(row, fillIn, true);
                 }
             }
             for (int col = 0; col < columnCount; col++)
             {
                 foreach (int fillIn in HalfCheck(colHints[col], rowCount))
                 {
-                    puzzle.FillCoordinate(fillIn, col);
+                    puzzle.FillCoordinate(fillIn, col, true);
                 }
                 foreach (int fillIn in FullCheck(colHints[col], rowCount))
                 {
-                    puzzle.FillCoordinate(fillIn, col);
+                    puzzle.FillCoordinate(fillIn, col, true);
                 }
             }
             return puzzle;
@@ -90,16 +90,24 @@ namespace NonogramSolver
             sum += hint.Sum() + hint.Length - 1;
             if (sum == length)
             {
-                int[] arrayToReturn = new int[length - hint.Length + 1];
-                int index = 0;
-                foreach (int block in hint)
+                int[] returnArray = new int[length - hint.Length - 1];
+                int fillThisIndex = 0;
+                for (int returnIndex = 0; returnIndex < returnArray.Length; returnIndex++)
                 {
-                    for (int i = 0; i < block; i++)
+                    foreach (int blockLength in hint)
                     {
-                        arrayToReturn[index] = block;
+                        returnArray[returnIndex++] = fillThisIndex++;
                     }
+                    fillThisIndex++;
                 }
+                return returnArray;
             }
+            return new int[0];
+        }
+
+        private int[] OnlyOption(int[] hint, Nonogram puzzle)
+        {
+            return new int[0];
         }
     }
 }
